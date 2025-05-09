@@ -3,6 +3,8 @@ package joonggo.baechoo.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "members")
 @Getter
@@ -52,4 +54,8 @@ public class Member {
     //role
     @Column(nullable = false)
     private Role role = Role.USER;
+
+    // 회원 가입일
+    @Column(nullable = false)
+    private LocalDateTime regDate = LocalDateTime.now();
 }

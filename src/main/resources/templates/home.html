@@ -1,10 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>배추</title>
+    <link rel="stylesheet" th:href="@{/static/css/style.css}">
 </head>
 <body>
+    <!-- 헤더 -->
+    <div th:replace="~{include/header :: header }"></div>
 
+    <main class="main-content">
+        <div class="item-grid">
+            <!-- 상품 카드 예시 -->
+            <div class="item-card">
+                <img src="https://via.placeholder.com/200" alt="상품 이미지" class="item-image">
+                <div class="item-info">
+                    <div class="item-title">아이폰 14 Pro 팝니다</div>
+                    <div class="item-price">1,000,000원</div>
+                </div>
+            </div>
+            <div class="item-card">
+                <img src="https://via.placeholder.com/200" alt="상품 이미지" class="item-image">
+                <div class="item-info">
+                    <div class="item-title">자전거 판매합니다</div>
+                    <div class="item-price">150,000원</div>
+                </div>
+            </div>
+            <div class="item-card">
+                <img src="https://via.placeholder.com/200" alt="상품 이미지" class="item-image">
+                <div class="item-info">
+                    <div class="item-title">닌텐도 스위치</div>
+                    <div class="item-price">200,000원</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="search-section">
+            <input type="text" class="search-input" placeholder="동네에서 찾고 싶은 물건이나 동네를 검색해보세요">
+        </div>
+    </main>
+
+    <div class="floating-button">
+        <span style="font-size: 2rem;">+</span>
+    </div>
+    <div th:replace="~{include/footer :: footer }"></div>
 </body>
 </html>
