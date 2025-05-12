@@ -1,0 +1,15 @@
+.main-content {
+    margin-top: 80px;
+    padding: 2rem;
+    max-width: 1024px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.item-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+

@@ -53,6 +53,7 @@ public class Member {
 
     //role
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Role role = Role.USER;
 
     // 회원 가입일

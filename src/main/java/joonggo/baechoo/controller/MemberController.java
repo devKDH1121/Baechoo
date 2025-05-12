@@ -36,6 +36,7 @@ public class MemberController {
     //회원 등록 폼
     @GetMapping("/register")
     public String registerForm(Model model){
+        log.info("회원가입 페이지 이동");
         model.addAttribute("member", new Member());
         return "members/register";
     }

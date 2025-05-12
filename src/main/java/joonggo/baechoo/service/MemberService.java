@@ -3,6 +3,7 @@ package joonggo.baechoo.service;
 import jakarta.transaction.Transactional;
 import joonggo.baechoo.domain.Member;
 import joonggo.baechoo.domain.MemberUpdatedDTO;
+import joonggo.baechoo.domain.Role;
 import joonggo.baechoo.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,6 +26,7 @@ public class MemberService {
         if(memberRepository.findByUserId(member.getUserId()).isPresent()){
             throw new IllegalArgumentException("이미 존재하는 아이디입니다.");
         }
+        member.setRole(Role.USER);
         member.setPassword(passwordEncoder.encode(member.getPassword()));
 
         return memberRepository.save(member);
