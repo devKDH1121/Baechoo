@@ -73,6 +73,24 @@ body {
     background-color: #2f9e44;
     color: white;
 }
+.logout-link {
+    color: #2f9e44;  /* 빨간색 계열 */
+    text-decoration: none;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    font-size: 1.05rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.logout-link:hover {
+    background-color: #2f9e44;
+    color: white;
+}
+
 
 .signup-link {
     color: white;

@@ -68,7 +68,22 @@
 
                 <div class="input-wrapper">
                     <label for="birth">생년월일</label>
-                    <input type="date" name="birth" id="birth" required placeholder="생년월일(yyyy-mm-dd)">
+                    <div class="birth-select-wrapper" style="display: flex; gap: 10px;">
+                        <select name="year" id="year" required style="flex: 1;">
+                            <option value="">년도</option>
+                            <option th:each="year : ${#numbers.sequence(2022,1900)}"
+                                    th:value="${year}"
+                                    th:text="${year + '년'}">년도</option>
+                        </select>
+                        <select name="month" id="month" required style="flex: 1;">
+                            <option value="">월</option>
+                            <option th:each="month : ${#numbers.sequence(1,12)}"
+                                    th:value="${#numbers.formatInteger(month, 2)}"
+                                    th:text="${month + '월'}">월</option>
+                        </select>
+                        <input type="text" id="day" required placeholder="일" maxlength="2" style="flex: 1; width: 60px; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                    </div>
+                    <input type="hidden" id="birth" name="birth">
                 </div>
             </div>
             <button type="submit" class="register-button">가입하기</button>
@@ -174,6 +189,22 @@
         });
     </script>
 
+<script>
+    const dayInput = document.getElementById('day');
+    dayInput.addEventListener('input', function(e) {
+        // 숫자만 입력 가능
+        this.value = this.value.replace(/[^0-9]/g, '');
+
+        const day = parseInt(this.value);
+        if (day > 31) {
+            this.value = '31';
+        }
+    });
+
+
+
+
+</script>
 
 </body>
 </html>

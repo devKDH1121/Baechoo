@@ -1,18 +1,30 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
 </head>
 <body>
-<header th:fragment="header" class="header">
-    <nav class="nav">
-        <a href="/" class="logo">배추</a>
-        <div>
-            <a href="/login" class="login-link">로그인</a>
-            <a href="/members/register" class="login-link">회원가입</a>
-        </div>
-
-    </nav>
-</header>
+<div th:fragment="header">
+    <header class="header">
+        <nav class="nav">
+            <a th:href="@{/}" class="logo">배추마켓</a>
+            <div class="nav-links">
+                <div sec:authorize="isAnonymous()">
+                    <a th:href="@{/login}" class="login-link">로그인</a>
+                    <a th:href="@{/members/register}" class="signup-link">회원가입</a>
+                </div>
+                <div sec:authorize="isAuthenticated()">
+                    <span class="welcome-message">
+                        <span th:text="${#authentication.getName()}">사용자</span>님 환영합니다!
+                    </span>
+                    <form th:action="@{/logout}" method="post" style="display: inline;">
+                        <button type="submit" class="logout-link">로그아웃</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </header>
+</div>
 </body>
 </html>

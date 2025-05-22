@@ -54,7 +54,7 @@ public class MemberService {
         }
     }
     
-    // 추 후 생각
+    // 추 후 생각(뭐 수정할건지)
     public void updateMember(MemberUpdatedDTO dto){
         Member member = memberRepository.findByIdAndDel(dto.getId(), 0)
                 .orElseThrow(() -> new IllegalArgumentException("회원이 존재하지 않습니다."));
