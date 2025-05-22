@@ -16,7 +16,10 @@
                 </div>
                 <div sec:authorize="isAuthenticated()">
                     <span class="welcome-message">
-                        <span th:text="${#authentication.getName()}">사용자</span>님 환영합니다!
+                        <span th:if="${#authentication.principal instanceof T(org.springframework.security.oauth2.core.user.OAuth2User)}"
+                              th:text="${#authentication.principal.attributes.kakao_account.profile.nickname}">사용자</span>
+                        <span th:unless="${#authentication.principal instanceof T(org.springframework.security.oauth2.core.user.OAuth2User)}"
+                              th:text="${#authentication.getName()}">사용자</span>님 환영합니다!
                     </span>
                     <form th:action="@{/logout}" method="post" style="display: inline;">
                         <button type="submit" class="logout-link">로그아웃</button>
