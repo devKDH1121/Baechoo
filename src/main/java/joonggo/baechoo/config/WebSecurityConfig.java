@@ -32,7 +32,8 @@ public class WebSecurityConfig {
         http
                 .securityMatcher("/**")
                 .userDetailsService(customUserDetailService)
-                .csrf((csrf) -> csrf.disable())
+                .csrf((csrf) -> csrf.ignoringRequestMatchers("/api/**", "/chat/**","ws-stomp/**")
+                )
                 .authorizeHttpRequests((auth)->auth
                         .requestMatchers(
                                 "/",
@@ -42,8 +43,16 @@ public class WebSecurityConfig {
                                 "/include/**",
                                 "/error/**",
                                 "/js/**",
-                                "/images/**"
+                                "/css/**",
+                                "/images/**",
+                                "/ws-stomp/**",
+                                "/api/auth/check",
+                                "/.well-known/**"
                         ).permitAll()
+                        .requestMatchers("/login","/register")
+                        .anonymous()
+                        .requestMatchers("/chat/**", "/api/chat/**").authenticated()
+                        .requestMatchers("/api/auth/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .formLogin((form)-> form
@@ -55,6 +64,8 @@ public class WebSecurityConfig {
                         .failureUrl("/login?error=true")
                         .permitAll()
                 )
+                //이미 인증된 사용자는 로그인 페이지 접근 시 메인으로 리다이렉트
+
                 .logout((logout)->logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login")

@@ -2,6 +2,7 @@ package joonggo.baechoo.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -37,9 +38,17 @@ public class HomeController {
 
 
     @GetMapping("/login")
-    public String login(@RequestParam(value="error", required = false) String error, Model model) {
+    public String login(@RequestParam(value="error", required = false) String error,
+                        Model model,
+                        Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated() &&
+                !(authentication instanceof AnonymousAuthenticationToken)) {
+            log.info("이미 인증된 사용자가 로그인 페이지 접근 시도: {}", authentication.getName());
+            return "redirect:/";
+        }
+
         log.info("로그인 페이지 요청");
-        if(error != null){
+        if (error != null) {
             model.addAttribute("errorMessage", "아이디 또는 비밀번호가 올바르지 않습니다.");
         }
         return "login";

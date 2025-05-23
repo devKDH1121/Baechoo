@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "members")
@@ -41,7 +43,7 @@ public class Member {
     private String address = "주소 미입력";
 
     //이메일
-    @Column( unique = true)
+    @Column(unique = true)
     private String email;
 
     //생년월일
@@ -72,4 +74,11 @@ public class Member {
         this.nickname = nickname;
         return this;
     }
+
+    @OneToMany(mappedBy = "sender", fetch = FetchType.LAZY)
+    private List<ChatRoom> sendChatRooms = new ArrayList<>();
+
+    @OneToMany(mappedBy = "receiver", fetch = FetchType.LAZY)
+    private List<ChatRoom> receiveChatRooms = new ArrayList<>();
+
 }
