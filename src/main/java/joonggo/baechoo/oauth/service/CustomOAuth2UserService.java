@@ -64,6 +64,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         // 임시 전화번호 설정
         String defaultPhone = "000-0000-0000";
 
+        // 임시 주소 설정
+        String defaultAddress = "주소 미입력";
         return memberRepository.findByProviderId(providerID)
                 .map(entity -> entity.update(nickname)) // 기존 회원 정보 업데이트
                 .orElse(Member.builder()
@@ -75,6 +77,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                         .email(generatedEmail)
                         .password(randomPassword)
                         .birth("0000-00-00")
+                        .address(defaultAddress)
                         .phone(defaultPhone)    // 임시 전화번호 설정
                         .role(Role.USER)
                         .build());
