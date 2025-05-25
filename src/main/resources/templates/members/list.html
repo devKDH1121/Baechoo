@@ -31,6 +31,7 @@
                             <th>이메일</th>
                             <th>전화번호</th>
                             <th>가입일</th>
+                            <th>관리</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -51,7 +52,7 @@
                     </tbody>
                 </table>
             </div>
-
+<!--
             <div class="pagination" th:if="${!members.isEmpty()}">
                 <a th:if="${hasPrevious}" th:href="@{/member/list(page=${currentPage - 1}, size=${pageSize}, keyword=${param.keyword})}" class="page-link">&laquo;</a>
                 <span th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}">
@@ -60,8 +61,9 @@
                        th:class="${pageNum == currentPage} ? 'page-link active' : 'page-link'"></a>
                 </span>
                 <a th:if="${hasNext}" th:href="@{/member/list(page=${currentPage + 1}, size=${pageSize}, keyword=${param.keyword})}" class="page-link">&raquo;</a>
-            </div>
+            </div>-->
         </div>
+
     </main>
 
     <div th:replace="~{include/footer :: footer }"></div>

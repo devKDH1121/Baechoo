@@ -46,7 +46,7 @@ public class MemberController {
     public String register(@ModelAttribute Member member){
         memberService.register(member);
 
-        return "redirect:/members/list";
+        return "redirect:/login";
     }
 
     //회원 수정 폼

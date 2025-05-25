@@ -50,7 +50,8 @@
                     <label for="phone">전화번호</label>
                     <input type="tel" id="phone" name="phone" required placeholder="핸드폰번호 (-제외)"
                            pattern="^01[0-9]{8,9}$"
-                           oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                           oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                           maxlength="11">
                 </div>
 
                 <div class="form-group">
@@ -186,7 +187,23 @@
             document.getElementById('address').value = fullAddress;
             console.log('최종 주소:', fullAddress); // 디버깅용 로그
 
+            const year = document.getElementById('year').value;
+            const month = document.getElementById('month').value;
+            const day = document.getElementById('day').value.padStart(2, '0');
+
+            if(year && month && day){
+                const birthDate = `${year}-${month}-${day}`;
+                document.getElementById('birth').value = birthDate;
+            }else{
+                alert('생년월일을 모두 입력해주세요.');
+                e.preventDefault();
+                return false;
+            }
+
         });
+
+
+
     </script>
 
 <script>

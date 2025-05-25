@@ -40,7 +40,7 @@ public class Member {
 
     //주소
     @Column
-    private String address = "주소 미입력";
+    private String address;
 
     //이메일
     @Column(unique = true)
