@@ -89,7 +89,11 @@ public class ChatController {
 
     @GetMapping("/chat/room/{roomId}")
     public String chatRoom(@PathVariable String roomId, Model model){
+        ChatRoom chatRoom = chatService.getChatRoom(roomId);
+        List<ChatMessage> messages = chatService.getChatMessages(roomId);
+
         model.addAttribute("roomId", roomId);
+        model.addAttribute("messages", messages);
         return "chat/room";
     }
 

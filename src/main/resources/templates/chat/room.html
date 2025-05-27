@@ -19,6 +19,17 @@
         
         <div class="chat-box" id="chatBox">
             <!-- 메시지들이 여기에 동적으로 추가됩니다 -->
+            <!-- 이전 메시지들 표시 -->
+            <th:block th:each="message : ${messages}">
+                <div th:class="'message ' + ${message.sender.userId == (#authentication.principal instanceof T(org.springframework.security.oauth2.core.user.OAuth2User) ? #authentication.principal.attributes.id : #authentication.principal.username) ? 'sent' : 'received'}">
+                    <div class="message-content">
+                        <span th:text="${message.message}"></span>
+                        <div class="time" th:text="${#temporals.format(message.sendTime, 'HH:mm')}"></div>
+                    </div>
+                </div>
+            </th:block>
+
+
         </div>
 
         <form id="messageForm" class="d-flex gap-2">
