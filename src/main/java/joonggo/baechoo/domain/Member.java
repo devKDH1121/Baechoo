@@ -75,10 +75,16 @@ public class Member {
         return this;
     }
 
+//    조인
+
     @OneToMany(mappedBy = "sender", fetch = FetchType.LAZY)
     private List<ChatRoom> sendChatRooms = new ArrayList<>();
 
     @OneToMany(mappedBy = "receiver", fetch = FetchType.LAZY)
     private List<ChatRoom> receiveChatRooms = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Item> items = new ArrayList<>();
+
 
 }
