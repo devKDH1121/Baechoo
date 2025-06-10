@@ -1,6 +1,7 @@
 package joonggo.baechoo.repository;
 
 import joonggo.baechoo.domain.ChatRoom;
+import joonggo.baechoo.domain.Item;
 import joonggo.baechoo.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -26,5 +27,7 @@ public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
 
     List<ChatRoom> findBySender(Member sender);
     List<ChatRoom> findByReceiver(Member receiver);
+
+    Optional<ChatRoom> findBySenderAndReceiverAndItem(Member sender, Member receiver, Item item);
 
 }

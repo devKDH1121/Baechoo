@@ -1,0 +1,109 @@
+.detail-wrapper {
+    margin-top: 100px;
+    padding: 2rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.detail-image {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+}
+
+.detail-info {
+    margin-bottom: 2rem;
+}
+
+.detail-info h2 {
+    font-size: 1.8rem;
+    color: #212529;
+    margin-bottom: 1rem;
+}
+
+.detail-info p {
+    font-size: 1rem;
+    color: #495057;
+    margin-bottom: 0.8rem;
+}
+
+.detail-price {
+    font-size: 1.5rem;
+    color: #2f9e44;
+    font-weight: bold;
+    margin-top: 1rem;
+}
+
+.detail-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.detail-buttons a,
+.detail-buttons button {
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    text-decoration: none;
+}
+
+.edit-button {
+    background-color: #228be6;
+    color: white;
+}
+
+.edit-button:hover {
+    background-color: #1864ab;
+}
+
+.delete-button {
+    background-color: #fa5252;
+    color: white;
+}
+
+.delete-button:hover {
+    background-color: #c92a2a;
+}
+
+
+.chat-button {
+    display: block;
+    width: 100%;
+    padding: 14px 20px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 8px;
+
+    background-color: #2f9d43;
+    color: white;
+
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.chat-button:hover {
+    background-color: #1f8030;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+
+.chat-button:active, .chat-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgb(31, 128, 48);
+}

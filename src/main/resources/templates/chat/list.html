@@ -106,9 +106,12 @@
                 </span>
                         </div>
                         <div class="last-message">
-                <span th:if="${not #lists.isEmpty(room.messages)}"
-                      th:text="${room.messages[0].message}"></span>
+                            <span th:if="${not #lists.isEmpty(room.messages)}"
+                                  th:text="${room.messages[0].message}"></span>
                             <span th:unless="${not #lists.isEmpty(room.messages)}">새로운 대화를 시작하세요.</span>
+                        </div>
+                        <div class="chat-time" th:if="${not #lists.isEmpty(room.messages)}">
+                            <span th:text="${#temporals.format(room.messages[0].sendTime, 'MM/dd HH:mm')}"></span>
                         </div>
                     </div>
                 </div>

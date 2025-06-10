@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -34,11 +33,9 @@ public class ItemService {
         item.setCategory(createDTO.getCategory());
         item.setStatus(Status.valueOf(String.valueOf(createDTO.getStatus())));
         item.setCondition(Condition.valueOf(String.valueOf(createDTO.getCondition())));
-        item.setCreatedDate(LocalDateTime.now());
         item.setImageUrl(createDTO.getImageUrl());
         item.setMember(member);
 
-        item.setName(String.valueOf(member));
 
         return itemRepository.save(item);
     }
@@ -48,10 +45,10 @@ public class ItemService {
     }
 
     public List<Item> getAllItems() {
-        return itemRepository.findAll();
+        return itemRepository.findAllWithMember();
     }
     public List<Item> getAllItemsByMemberId(Long memberId){
-        return itemRepository.findMyMemberId(memberId);
+        return itemRepository.findByMemberId(memberId);
     }
 
     public Item updateItem(Long itemId, ItemUpdateDTO updateDTO) {
@@ -62,7 +59,6 @@ public class ItemService {
         item.setCategory(updateDTO.getCategory());
         item.setStatus(Status.valueOf(String.valueOf(updateDTO.getStatus())));
         item.setCondition(Condition.valueOf(String.valueOf(updateDTO.getCondition())));
-        item.setCreatedDate(LocalDateTime.now());
         item.setImageUrl(updateDTO.getImageUrl());
 
         return itemRepository.save(item);
@@ -72,6 +68,9 @@ public class ItemService {
         itemRepository.deleteById(itemId);
     }
 
+    public List<Item> findTop5RecentItems(){
+        return itemRepository.findTop5ByOrderByCreatedDateDesc();
+    }
 
 
 }

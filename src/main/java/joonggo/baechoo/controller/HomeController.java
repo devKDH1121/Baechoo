@@ -1,5 +1,7 @@
 package joonggo.baechoo.controller;
 
+import joonggo.baechoo.domain.Item;
+import joonggo.baechoo.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -12,12 +14,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.Map;
 
 @Controller
 @Slf4j
 @RequiredArgsConstructor
 public class HomeController {
+
+    private final ItemService itemService;
 
     @GetMapping("/")
     public String home(Model model, @AuthenticationPrincipal Object principal) {
@@ -33,6 +38,9 @@ public class HomeController {
                 model.addAttribute("username", nickname);
             }
         }
+
+        List<Item> items = itemService.findTop5RecentItems();
+        model.addAttribute("items", items);
         return "home";
     }
 

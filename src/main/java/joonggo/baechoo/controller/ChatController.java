@@ -88,12 +88,20 @@ public class ChatController {
 
 
     @GetMapping("/chat/room/{roomId}")
-    public String chatRoom(@PathVariable String roomId, Model model){
+    public String chatRoom(@PathVariable String roomId, Model model, Authentication authentication){
+        if (authentication == null) return "redirect:/login"; // 로그인 안했으면 로그인 페이지로
+
         ChatRoom chatRoom = chatService.getChatRoom(roomId);
         List<ChatMessage> messages = chatService.getChatMessages(roomId);
 
+        // [추가] 채팅방에 연결된 Item 정보를 모델에 추가
+        model.addAttribute("item", chatRoom.getItem());
+
         model.addAttribute("roomId", roomId);
         model.addAttribute("messages", messages);
+        // [추가] 현재 로그인한 사용자 정보도 모델에 추가 (메시지 sent/received 구분용)
+        model.addAttribute("currentUser", memberRepository.findByUserId(authentication.getName()).orElse(null));
+
         return "chat/room";
     }
 
@@ -133,8 +141,9 @@ public class ChatController {
 
     @PostMapping("/chat/room")
     public String createRoom(Authentication authentication,
-                             @RequestParam String receiverId) {
-        log.info("createRoom 호출됨. 인증 정보: {}", authentication);
+                             @RequestParam String receiverId,
+                             @RequestParam Long itemId) { // [추가] itemId 파라미터 받기
+        log.info("createRoom 호출됨. receiverId: {}, itemId: {}", receiverId, itemId);
 
         if (authentication == null) {
             log.warn("인증되지 않은 사용자의 채팅방 생성 시도");
@@ -142,13 +151,14 @@ public class ChatController {
         }
 
         try {
-            // chatService의 createChatRoom 메소드를 직접 호출
-            ChatRoom chatRoom = chatService.createChatRoom(receiverId, authentication);
+            // [수정] chatService 호출 시 itemId도 함께 전달
+            ChatRoom chatRoom = chatService.createChatRoom(receiverId, itemId, authentication);
             return "redirect:/chat/room/" + chatRoom.getRoomId();
         } catch (Exception e) {
-            log.error("채팅방 생성 중 오류 발생: {}", e.getMessage());
+            log.error("채팅방 생성 중 오류 발생: {}", e.getMessage(), e);
             return "redirect:/error";
         }
+    }
     }
 
 
@@ -157,4 +167,4 @@ public class ChatController {
 
 
 
-}
+

@@ -21,6 +21,11 @@
                         <span th:unless="${#authentication.principal instanceof T(org.springframework.security.oauth2.core.user.OAuth2User)}"
                               th:text="${#authentication.getName()}">사용자</span>님 환영합니다!
                     </span>
+
+                    <a th:href="@{/items/new}" class="login-link">상품 등록</a>
+                    <a th:href="@{/chat}" class="login-link">내 채팅</a>
+
+
                     <form th:action="@{/logout}" method="post" style="display: inline;">
                         <button type="submit" class="logout-link">로그아웃</button>
                     </form>

@@ -129,3 +129,47 @@
     font-size: 24px;
     text-align: center;
 }
+
+.item-info-bar {
+    padding: 12px 15px; /* 내부 여백 (상하 12px, 좌우 15px) */
+    border-bottom: 1px solid #e9ecef; /* 하단에 얇은 구분선 */
+    background-color: #ffffff; /* 배경색은 깨끗한 흰색 */
+
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+.item-info-bar .item-link {
+    display: flex;         /* 내부 요소(이미지, 텍스트)를 가로로 정렬 */
+    align-items: center;   /* 세로 방향으로 가운데 정렬 */
+    text-decoration: none; /* 링크의 기본 밑줄 제거 */
+    color: inherit;        /* 부모 요소의 글자색을 그대로 사용 (보통 검은색) */
+}
+.item-info-bar .item-thumbnail {
+    width: 50px;           /* 이미지 너비 */
+    height: 50px;          /* 이미지 높이 */
+    border-radius: 8px;    /* 모서리를 부드럽게 */
+    margin-right: 15px;    /* 오른쪽 텍스트와의 간격 */
+
+    /* 이미지가 잘리더라도 비율을 유지하며 꽉 채움 */
+    object-fit: cover;
+
+    /* 얇은 테두리로 이미지와 배경을 구분 */
+    border: 1px solid #f0f0f0;
+}
+.item-info-bar .item-details {
+    display: flex;
+    flex-direction: column; /* 텍스트(이름, 가격)를 세로로 쌓음 */
+    justify-content: center;
+}
+.item-info-bar .item-name {
+    font-size: 16px;      /* 글자 크기 */
+    font-weight: 600;     /* 살짝 굵게 */
+    color: #212529;       /* 선명한 검은색 계열 */
+    margin-bottom: 4px;   /* 가격과의 세로 간격 */
+}
+.item-info-bar .item-price {
+    font-size: 14px;
+    font-weight: bold;
+    color: #343a40;       /* 이름보다 약간 옅은 검은색 */
+}

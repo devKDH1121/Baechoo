@@ -29,12 +29,18 @@ public class ChatRoom {
     private Member receiver;
 
     @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL)
+    @OrderBy("sendTime DESC")
     private List<ChatMessage> messages = new ArrayList<>();
 
-    public static ChatRoom create(Member sender, Member receiver){
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="item_id")
+    private Item item;
+
+    public static ChatRoom create(Member sender, Member receiver, Item item){
         ChatRoom chatRoom = new ChatRoom();
         chatRoom.sender = sender;
         chatRoom.receiver = receiver;
+        chatRoom.item = item;
         chatRoom.roomId = UUID.randomUUID().toString();
 
         return chatRoom;

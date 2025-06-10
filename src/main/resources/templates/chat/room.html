@@ -14,37 +14,37 @@
 <body>
 <div th:replace="~{include/header :: header}"></div>
 
-    <div class="chat-container">
-        <h2 class="mb-4">채팅방</h2>
-        
-        <div class="chat-box" id="chatBox">
-            <!-- 메시지들이 여기에 동적으로 추가됩니다 -->
-            <!-- 이전 메시지들 표시 -->
-            <th:block th:each="message : ${messages}">
-                <div th:class="'message ' + ${message.sender.userId == (#authentication.principal instanceof T(org.springframework.security.oauth2.core.user.OAuth2User) ? #authentication.principal.attributes.id : #authentication.principal.username) ? 'sent' : 'received'}">
-                    <div class="message-content">
-                        <span th:text="${message.message}"></span>
-                        <div class="time" th:text="${#temporals.format(message.sendTime, 'HH:mm')}"></div>
-                    </div>
-                </div>
-            </th:block>
+<div class="chat-container">
 
-
-        </div>
-
-        <form id="messageForm" class="d-flex gap-2">
-            <input type="text" class="form-control" id="messageInput" placeholder="메시지를 입력하세요">
-            <button type="submit" class="btn btn-primary">전송</button>
-        </form>
-        <a th:href="@{/chat}" class="back-button">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="vertical-align: middle; margin-right: 5px;">
-                <path d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
-            </svg>
-            채팅 목록으로 돌아가기
+    <div class="item-info-bar" th:if="${item != null}">
+        <a th:href="@{/items/{id}(id=${item.id})}" class="item-link">
+            <img th:src="@{/images/{filename}(filename=${item.imageUrl})}" alt="상품 이미지" class="item-thumbnail">
+            <div class="item-details">
+                <div class="item-name" th:text="${item.name}">상품 이름</div>
+                <div class="item-price" th:text="|${#numbers.formatInteger(item.price, 3, 'COMMA')}원|">가격</div>
+            </div>
         </a>
-
-
     </div>
+
+    <div class="chat-box" id="chatBox">
+        <th:block th:each="message : ${messages}">
+            <div th:class="'message ' + (${message.sender.id == currentUser.id} ? 'sent' : 'received')">
+                <div class="message-content">
+                    <span th:text="${message.message}"></span>
+                    <div class="time" th:text="${#temporals.format(message.sendTime, 'HH:mm')}"></div>
+                </div>
+            </div>
+        </th:block>
+    </div>
+
+    <form id="messageForm" class="d-flex gap-2">
+        <input type="text" class="form-control" id="messageInput" placeholder="메시지를 입력하세요">
+        <button type="submit" class="btn btn-primary">전송</button>
+    </form>
+    <a th:href="@{/chat}" class="back-button">
+        채팅 목록으로 돌아가기
+    </a>
+</div>
 <div th:replace="~{include/footer :: footer }"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
@@ -124,8 +124,8 @@
                 const chatMessage = {
                     roomId: roomId,
                     message: message,
-                    senderId: userId,  // 여기에 senderId 추가
-                    type: 'TALK'      // 메시지 타입 추가 (필요한 경우)
+                    senderId: userId,
+                    type: 'TALK'
                 };
 
                 console.log('Sending message:', chatMessage);  // 디버깅용

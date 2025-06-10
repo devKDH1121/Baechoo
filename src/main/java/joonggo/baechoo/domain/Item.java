@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Item {
+public class Item extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,17 +29,13 @@ public class Item {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    private LocalDateTime createdDate;
     private String imageUrl;
 
     @Enumerated(EnumType.STRING)
+    @Column(name="item_condition")
     private Condition condition;
 
-//    Persist
-    @PrePersist
-    public void perPersist(){
-        this.createdDate = LocalDateTime.now();
-    }
+
 
 //    조인
     @ManyToOne(fetch = FetchType.LAZY)
