@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>채팅방</title>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="stylesheet" th:href="@{/static/css/common.css}">
+    <link rel="stylesheet" th:href="@{/static/css/chat.css}">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body>
+<div th:replace="~{include/header :: header}"></div>
+
+<div class="chat-container">
+
+    <div class="item-info-bar" th:if="${item != null}">
+        <a th:href="@{/items/{id}(id=${item.id})}" class="item-link">
+            <img th:src="@{/images/{filename}(filename=${item.imageUrl})}" alt="상품 이미지" class="item-thumbnail">
+            <div class="item-details">
+                <div class="item-name" th:text="${item.name}">상품 이름</div>
+                <div class="item-price" th:text="|${#numbers.formatInteger(item.price, 3, 'COMMA')}원|">가격</div>
+            </div>
+        </a>
+    </div>
+
+    <div class="chat-box" id="chatBox">
+        <th:block th:each="message : ${messages}">
+            <div th:class="'message ' + (${message.sender.id == currentUser.id} ? 'sent' : 'received')">
+                <div class="message-content">
+                    <span th:text="${message.message}"></span>
+                    <div class="time" th:text="${#temporals.format(message.sendTime, 'HH:mm')}"></div>
+                </div>
+            </div>
+        </th:block>
+    </div>
+
+    <form id="messageForm" class="d-flex gap-2">
+        <input type="text" class="form-control" id="messageInput" placeholder="메시지를 입력하세요">
+        <button type="submit" class="btn btn-primary">전송</button>
+    </form>
+    <a th:href="@{/chat}" class="back-button">
+        채팅 목록으로 돌아가기
+    </a>
+</div>
+<div th:replace="~{include/footer :: footer }"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script th:inline="javascript">
+        const roomId = /*[[${roomId}]]*/ 'default';
+        const userId = /*[[${#authentication.principal instanceof T(org.springframework.security.oauth2.core.user.OAuth2User)} ?
+                  ${#authentication.principal.attributes.id} :
+                  ${#authentication.principal.username}]]*/ 'default';
+
+        let stompClient = null;
+
+        // CSRF 토큰 가져오기
+        const token = document.querySelector("meta[name='_csrf']").getAttribute("content");
+        const header = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
+
+        function connect() {
+            const socket = new SockJS('/ws-stomp');
+            stompClient = Stomp.over(socket);
+
+            // 연결 시 헤더 설정
+            const headers = {
+                'userId': userId
+            };
+            headers[header] = token;
+
+            stompClient.connect(headers, function(frame) {
+                console.log('Connected: ' + frame);
+                stompClient.subscribe('/sub/chat/room/' + roomId, function(message) {
+                    try {
+                        const receivedMessage = JSON.parse(message.body);
+                        console.log('Received message:', receivedMessage);
+                        showMessage(receivedMessage);
+                    } catch (e) {
+                        console.error('메시지 처리 중 오류:', e);
+                    }
+                });
+            }, function(error) {
+                console.error('연결 실패:', error);
+                setTimeout(connect, 5000);
+            });
+        }
+
+        function showMessage(message) {
+            const chatBox = document.getElementById('chatBox');
+            const messageDiv = document.createElement('div');
+
+            const isMine = String(message.userId) === String(userId);
+            console.log('메시지 정보:', message, 'currentUserId:', userId, 'isMine:', isMine); // 디버깅용
+
+            messageDiv.className = `message ${isMine ? 'sent' : 'received'}`;
+
+            const messageContent = `
+        <div class="message-content">
+            ${message.message}
+            <div class="time">${new Date(message.sendTime).toLocaleTimeString('ko-KR', {hour: '2-digit', minute: '2-digit'})}</div>
+        </div>
+    `;
+
+            messageDiv.innerHTML = messageContent;
+            chatBox.appendChild(messageDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+
+        document.getElementById('messageForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const messageInput = document.getElementById('messageInput');
+            const message = messageInput.value.trim();
+
+            if (message && stompClient) {
+                const headers = {
+                    'userId': userId
+                };
+                headers[header] = token;
+
+                const chatMessage = {
+                    roomId: roomId,
+                    message: message,
+                    senderId: userId,
+                    type: 'TALK'
+                };
+
+                console.log('Sending message:', chatMessage);  // 디버깅용
+                stompClient.send("/pub/chat/message", headers, JSON.stringify(chatMessage));
+                messageInput.value = '';
+            }
+        });
+
+
+        connect();
+        function disconnect() {
+            if (stompClient !== null) {
+                stompClient.disconnect();
+            }
+        }
+
+        // 페이지를 떠날 때 연결 종료
+        window.addEventListener('beforeunload', function() {
+            disconnect();
+        });
+
+    </script>
+
+
+
+
+
+
+</body>
+</html>

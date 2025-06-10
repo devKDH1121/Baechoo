@@ -1,0 +1,73 @@
+.item-list-wrapper {
+    margin-top: 100px;
+    padding: 2rem;
+    max-width: 1024px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.item-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.item-list-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #212529;
+}
+
+.item-register-btn {
+    padding: 0.6rem 1.2rem;
+    background-color: #2f9e44;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.item-register-btn:hover {
+    background-color: #237032;
+}
+
+.item-list-table {
+    width: 100%;
+    border-collapse: collapse;
+
+
+    margin-top: 100px;
+}
+
+.item-list-table th, .item-list-table td {
+    padding: 1rem;
+    text-align: center;
+    border-bottom: 1px solid #dee2e6;
+    font-size: 1rem;
+}
+
+.item-list-table th {
+    background-color: #f1f3f5;
+    color: #343a40;
+    font-weight: 600;
+}
+
+.item-list-table tr:hover {
+    background-color: #f8f9fa;
+}
+
+.item-detail-link {
+    color: #2f9e44;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.item-detail-link:hover {
+    text-decoration: underline;
+}

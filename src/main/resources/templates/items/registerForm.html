@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>배추 : 상품 등록</title>
+    <link rel="stylesheet" th:href="@{/static/css/common.css}">
+    <link rel="stylesheet" th:href="@{/static/css/registerForm.css}">
+</head>
+<body>
+<div th:replace="~{include/header :: header}"></div>
+<div class="form-container">
+    <h1 class="form-title">상품 등록</h1>
+
+    <form th:action="@{/items/new}" th:object="${item}" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="name">이름</label>
+            <input type="text" th:field="*{name}" id="name">
+        </div>
+
+        <div class="form-group">
+            <label for="price">가격</label>
+            <input type="number" th:field="*{price}" id="price">
+        </div>
+
+        <div class="form-group">
+            <label for="description">설명</label>
+            <textarea th:field="*{description}" id="description" placeholder="설명을 입력하세요."></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="category">카테고리</label>
+            <input type="text" th:field="*{category}" id="category">
+        </div>
+
+        <div class="form-group">
+            <label for="status">상태</label>
+            <select th:field="*{status}" id="status" class="form-select">
+                <option value="AVAILABLE">판매중</option>
+                <option value="SOLD_OUT">판매완료</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="imageFile">이미지</label>
+            <input type="file" name="imageFile" id="imageFile">
+        </div>
+        <div class="form-group">
+            <label for="condition">상품 상태</label>
+            <select th:field="*{condition}" id="condition" class="form-select">
+                <option value="NEW">새상품</option>
+                <option value="ALMOST_NEW">거의 새것</option>
+                <option value="USED">중고</option>
+            </select>
+        </div>
+
+        <button type="submit" class="submit-button">등록</button>
+
+    </form>
+    <div style="text-align: center; margin-top: 1rem;">
+        <a th:href="@{/items/list}">목록으로</a>
+    </div>
+
+</div>
+
+<div th:replace="~{include/footer :: footer}"></div>
+</body>
+</html>
